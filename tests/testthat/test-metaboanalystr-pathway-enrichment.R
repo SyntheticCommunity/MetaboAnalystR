@@ -3,6 +3,9 @@ context("Testing MetaboAnalystR - Functional Analysis Modules")
 library(MetaboAnalystR)
 
 test_that("Pathway Analysis Module Works", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   tmp.vec <- c("Acetoacetic acid", "Beta-Alanine", "Creatine", 
@@ -38,6 +41,9 @@ test_that("Pathway Analysis Module Works", {
 })
 
 test_that("Enrichment Analysis Module Works", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   

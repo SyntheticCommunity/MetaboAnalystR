@@ -3,7 +3,10 @@ context("Testing MetaboAnalystR - Basic Functionality")
 library(MetaboAnalystR)
 
 test_that("Uploading CSV Files Works", {
-  
+
+  skip_if_offline()
+  skip_on_cran()
+
   mSet <- InitDataObjects("conc", "stat", FALSE)
   mSet <- Read.TextData(mSet, "http://www.metaboanalyst.ca/resources/data/human_cachexia.csv", "rowu", "disc")
   
@@ -18,7 +21,10 @@ test_that("Uploading CSV Files Works", {
 })
 
 test_that("Sanity Check Works", {
-  
+
+  skip_if_offline()
+  skip_on_cran()
+
   mSet <- InitDataObjects("conc", "stat", FALSE)
   mSet <- Read.TextData(mSet, "http://www.metaboanalyst.ca/resources/data/human_cachexia.csv", "rowu", "disc")
   mSet <- SanityCheckData(mSet)
@@ -30,7 +36,10 @@ test_that("Sanity Check Works", {
 })
 
 test_that("Replace Min Works", {
-  
+
+  skip_if_offline()
+  skip_on_cran()
+
   mSet <- InitDataObjects("conc", "stat", FALSE)
   mSet <- Read.TextData(mSet, "http://www.metaboanalyst.ca/resources/data/human_cachexia.csv", "rowu", "disc")
   mSet <- SanityCheckData(mSet)
@@ -44,7 +53,10 @@ test_that("Replace Min Works", {
 })
 
 test_that("Normalization Works", {
-  
+
+  skip_if_offline()
+  skip_on_cran()
+
   mSet <- InitDataObjects("conc", "stat", FALSE)
   mSet <- Read.TextData(mSet, "http://www.metaboanalyst.ca/resources/data/human_cachexia.csv", "rowu", "disc")
   mSet <- SanityCheckData(mSet)

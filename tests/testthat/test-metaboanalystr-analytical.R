@@ -3,6 +3,8 @@ context("Testing MetaboAnalystR - Analytical Modules")
 library(MetaboAnalystR)
 
 test_that("Statistical Analysis Module Works", {
+  skip_if_offline()
+  skip_on_cran()
 
   mSet<-InitDataObjects("conc", "stat", FALSE)
   mSet<-Read.TextData(mSet, "http://www.metaboanalyst.ca/MetaboAnalyst/resources/data/human_cachexia.csv", "rowu", "disc");
@@ -28,6 +30,9 @@ test_that("Statistical Analysis Module Works", {
 })
 
 test_that("Biomarker Analysis Module Works", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   
@@ -62,6 +67,9 @@ test_that("Biomarker Analysis Module Works", {
 })
 
 test_that("Multiple factors analysis", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   
@@ -105,6 +113,9 @@ test_that("Multiple factors analysis", {
 })
 
 test_that("Power Analysis Module Works", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   
@@ -126,6 +137,9 @@ test_that("Power Analysis Module Works", {
 })
 
 test_that("MS Peaks to Paths Module Works", {
+  skip_if_offline()
+  skip_on_cran()
+
   
   rm(list =ls())
   
