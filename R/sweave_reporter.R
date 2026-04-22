@@ -102,7 +102,7 @@ CreateHeader <- function(usrName){
 #'McGill University, Canada
 #'License: GNU GPL (>= 2)
 #'@export
-#'@import qs
+#'@import qs2
 CreateSummaryTable <- function(mSetObj=NA){
   
   mSetObj <- .get.mSet(mSetObj);

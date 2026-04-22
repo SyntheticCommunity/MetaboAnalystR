@@ -13,7 +13,7 @@
 #'@author Jeff Xia \email{jeff.xia@mcgill.ca}
 #'McGill University, Canada
 #'License: GNU GPL (>= 2)
-#'@import qs
+#'@import qs2
 #'@export
 #'
 SanityCheckData <- function(mSetObj=NA){
@@ -384,7 +384,7 @@ if (n.blank == 0) {
 #'@author Jeff Xia \email{jeff.xia@mcgill.ca}
 #'McGill University, Canada
 #'License: GNU GPL (>= 2)
-#'@import qs
+#'@import qs2
 #'@export
 #'
 PerformSanityClosure <- function(mSetObj=NA){
@@ -416,7 +416,7 @@ PerformSanityClosure <- function(mSetObj=NA){
 #'@author Jeff Xia \email{jeff.xia@mcgill.ca}
 #'McGill University, Canada
 #'License: GNU GPL (>= 2)
-#'@import qs
+#'@import qs2
 #'@export
 #'
 RemoveMissingByPercent <- function(mSetObj = NA,
@@ -518,7 +518,7 @@ fetchReplaceMsg <- function(mSetObj = NA) {
 #'@author Jeff Xia \email{jeff.xia@mcgill.ca}
 #'McGill University, Canada
 #'License: GNU GPL (>= 2)
-#'@import qs
+#'@import qs2
 #'@export
 #'
 ImputeMissingVar <- function(mSetObj=NA, method="lod", grpLod=F, grpMeasure=F){

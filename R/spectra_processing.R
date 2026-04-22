@@ -606,7 +606,7 @@ verifyParam <- function(param0_path, users.path) {
 #' @description save the spectra file info for project loading
 #' @noRd
 #' @author Zhiqiang Pang
-#' @importFrom qs qsave
+#' @importFrom qs2 qs_save
 spectraInclusion <- function(files, number){
     ov_qs_save(list(files, number), file = "IncludedSpectra.qs");
 }
@@ -615,7 +615,7 @@ spectraInclusion <- function(files, number){
 #' @description read the spectra file info for project loading
 #' @noRd
 #' @author Zhiqiang Pang
-#' @importFrom qs qread
+#' @importFrom qs2 qs_read
 getSpectraInclusion <- function(){
     return(ov_qs_read("IncludedSpectra.qs"));
 }
