@@ -295,16 +295,16 @@ if (n.qc == 0) {
   mSetObj$dataSet$containsQC <- FALSE
 
 } else if (n.qc < min.n.qc) {
-  # Too few QC samples → skip QC-based filtering
+  # Too few QC samples -> skip QC-based filtering
   msg <- c(msg,
            sprintf(
-             "<font color=\"orange\">Only %d QC sample%s found (≥ %d required). ",
+             "<font color=\"orange\">Only %d QC sample%s found (>= %d required). ",
              n.qc, ifelse(n.qc == 1, "", "s"), min.n.qc),
            "QC-based %RSD filtering will be skipped.</font>"
            )
   mSetObj$dataSet$containsQC <- FALSE
 
-} else {                        # n.qc ≥ min.n.qc
+} else {                        # n.qc >= min.n.qc
   if (isFALSE(mSetObj$dataSet$containsQC)) {
     msg <- c(msg,
              sprintf(
@@ -323,13 +323,13 @@ if (n.blank == 0) {
 } else if (n.blank < min.n.blank) {
   msg <- c(msg,
            sprintf(
-             "<font color=\"orange\">Only %d blank injection%s found (≥ %d required). ",
+             "<font color=\"orange\">Only %d blank injection%s found (>= %d required). ",
              n.blank, ifelse(n.blank == 1, "", "s"), min.n.blank),
            "Blank-based background correction will be skipped.</font>"
            )
   mSetObj$dataSet$containsBlank <- FALSE
 
-} else {                        # n.blank ≥ min.n.blank
+} else {                        # n.blank >= min.n.blank
   if (isFALSE(mSetObj$dataSet$containsBlank)) {
     msg <- c(msg,
              sprintf(
@@ -436,11 +436,11 @@ RemoveMissingByPercent <- function(mSetObj = NA,
 
   ## 2 · Determine “good” variables -------------------------------------
   if (!grpWise) {
-    ## —— global rule (original behaviour) ————————————————
+    ## -- global rule (original behaviour) ----------------
     good.inx <- colMeans(is.na(int.mat)) < percent
 
   } else {
-    ## —— group-wise rule (modified 80 %) ————————————————
+    ## -- group-wise rule (modified 80 %) ----------------
     ##     Keep a feature if *at least one* group is below threshold.
     ##     Remove feature only when EVERY group exceeds threshold.
 
@@ -635,7 +635,7 @@ FilterVariable <- function(mSetObj=NA, qc.filter="F", rsd, var.filter="iqr", var
   if (qc.filter == "T") {
     rsd <- rsd / 100
     
-    ## ── 1 · determine QC samples by class label or by name prefix ----
+    ## -- 1 · determine QC samples by class label or by name prefix ----
     qc.cls.hits <- tolower(as.character(cls)) == "qc"
     if (any(qc.cls.hits)) {
       qc.hits <- qc.cls.hits
@@ -643,7 +643,7 @@ FilterVariable <- function(mSetObj=NA, qc.filter="F", rsd, var.filter="iqr", var
       qc.hits <- grepl("^qc", rownames(int.mat), ignore.case = TRUE)
     }
     
-    ## ── 2 · require at least two QC samples ----------------------------
+    ## -- 2 · require at least two QC samples ----------------------------
     if (sum(qc.hits) > 1) {
       qc.mat   <- int.mat[qc.hits, , drop = FALSE]
       sds      <- apply(qc.mat,   2, sd,   na.rm = TRUE)
@@ -677,7 +677,7 @@ FilterVariable <- function(mSetObj=NA, qc.filter="F", rsd, var.filter="iqr", var
         )
       }
       
-      ## ── 3 · too few QC → fall back or error -----------------------------
+      ## -- 3 · too few QC -> fall back or error -----------------------------
     } else if (sum(qc.hits) > 0) {
       AddErrMsg(
         "RSD filtering requires at least 2 QC samples; only non-QC filtering can be applied."
@@ -721,7 +721,7 @@ FilterVariable <- function(mSetObj=NA, qc.filter="F", rsd, var.filter="iqr", var
     ## store back
     mSetObj$dataSet$proc.cls <- mSetObj$dataSet$filt.cls <- cls
 
-    ## ── summary message ────────────────────────────────────────────
+    ## -- summary message --------------------------------------------
     n.feat.after  <- ncol(int.mat)
     n.feat.removed <- n.feat.before - n.feat.after
     msg.blank <- paste0(
@@ -1185,7 +1185,7 @@ GetMissNumMsg <- function(mSetObj = NA) {
 #' @param imgName  Base output name (no extension).
 #' @param format   Image format: "png", "tiff", "pdf", or "svg". Default "png".
 #' @param dpi      Device resolution (dpi). Default 150.
-#' @param width    Width in inches; if \code{NA}, uses 0.25" per sample (≥ 8").
+#' @param width    Width in inches; if \code{NA}, uses 0.25" per sample (>= 8").
 #' @param groupCol Metadata column to colour by (default = first column or "Class").
 #'
 #' @export
@@ -1222,7 +1222,7 @@ PlotMissingDistr <- function(mSetObj = NA,
     meta.df  <- mSetObj$dataSet$meta.info
     if (is.null(groupCol)) groupCol <- colnames(meta.df)[1]
     if (!groupCol %in% colnames(meta.df)) {
-      AddErrMsg(sprintf("Column ‘%s’ not in meta.info – using first column.",
+      AddErrMsg(sprintf("Column ‘%s’ not in meta.info - using first column.",
                         groupCol))
       groupCol <- colnames(meta.df)[1]
     }
@@ -1300,7 +1300,7 @@ PlotMissingDistr <- function(mSetObj = NA,
   mSetObj$imgSet$miss.box <- img.full
   mSetObj$msgSet$plot.msg <- c(
     mSetObj$msgSet$plot.msg,
-    sprintf("Missing-value boxplot saved (%s, %.1f × %.1f in, %d dpi) – coloured by ‘%s’ (%s).",
+    sprintf("Missing-value boxplot saved (%s, %.1f × %.1f in, %d dpi) - coloured by ‘%s’ (%s).",
             format, width, height, dpi, groupCol, grp.type)
   )
 
@@ -1548,7 +1548,7 @@ ExportMissingHeatmapJSON <- function(mSetObj = NA,
 #' relative standard deviation (\%RSD) of each feature across QC
 #' injections and returns a concise QA message.
 #'
-#' @param mSetObj MetaboAnalystR object (default NA → pull from session)
+#' @param mSetObj MetaboAnalystR object (default NA -> pull from session)
 #' @param thr     RSD threshold percentage for the “pass-rate” statistic
 #' @return        Character string summarising QC precision
 #'
@@ -1582,7 +1582,7 @@ CheckQCRSD <- function(mSetObj, thr = 30) {
       return("")
     }
     
-    ## ── 2. load matrix (features × samples) ----------------------------------
+    ## -- 2. load matrix (features × samples) ----------------------------------
     if (!file.exists("preproc.qs")) {
       msg <- "Could not locate 'preproc.qs'; %RSD calculation skipped."
       mSetObj$msgSet$qc.rsd.msg <- msg
@@ -1593,14 +1593,14 @@ CheckQCRSD <- function(mSetObj, thr = 30) {
     ## make sure rows = features, cols = samples
     if (ncol(raw) != length(cls)) raw <- t(raw)
     
-    ## ── 3. vignette-style RSD% ----------------------------------------------
+    ## -- 3. vignette-style RSD% ----------------------------------------------
     FUN <- function(x) stats::sd(x, na.rm = TRUE) /
       mean(x, na.rm = TRUE) * 100
     
     rsd_qc  <- apply(raw[ ,  qc.inx, drop = FALSE], 1, FUN)
     rsd_smp <- apply(raw[ , !qc.inx, drop = FALSE], 1, FUN)  # not used in msg
     
-    ## ── 4. summary numbers for QC -------------------------------------------
+    ## -- 4. summary numbers for QC -------------------------------------------
     med.rsd   <- median(rsd_qc, na.rm = TRUE)
     prop.pass <- round(mean(rsd_qc < thr, na.rm = TRUE) * 100, 1)
     
@@ -1619,9 +1619,9 @@ CheckQCRSD <- function(mSetObj, thr = 30) {
   }
   
 
-#───────────────────────────────────────────────────────────────────────────────
-#  PlotRSDViolin  ─  QC-centred RSD% violin plot (pmp vignette style)
-#───────────────────────────────────────────────────────────────────────────────
+#-------------------------------------------------------------------------------
+#  PlotRSDViolin  -  QC-centred RSD% violin plot (pmp vignette style)
+#-------------------------------------------------------------------------------
 #  mSetObj     : MetaboAnalyst object or NA to fetch the active one
 #  imgName     : base filename (without dpi / extension)
 #  format      : "png", "pdf", …
@@ -1646,7 +1646,7 @@ PlotRSDViolin <- function(mSetObj = NA,
 
   raw <- t(ov_qs_read("preproc.qs"))      # rows = features, cols = samples
 
-  ## ── class vector --------------------------------------------------------
+  ## -- class vector --------------------------------------------------------
   cls <- if (!is.null(mSetObj$dataSet$cls) &&
              length(mSetObj$dataSet$cls) &&
              !all(is.na(mSetObj$dataSet$cls))) {
@@ -1659,7 +1659,7 @@ PlotRSDViolin <- function(mSetObj = NA,
   qc.inx <- cls == "qc"
   hasQC  <- any(qc.inx)
 
-  ## ── RSD vectors ---------------------------------------------------------
+  ## -- RSD vectors ---------------------------------------------------------
   rsd_smp <- apply(raw[ , !qc.inx, drop = FALSE], 1, rsd_fun)
   rsd_smp <- rm_outliers(rsd_smp[is.finite(rsd_smp)])
 
@@ -1691,18 +1691,18 @@ PlotRSDViolin <- function(mSetObj = NA,
     mSetObj$analSet$rsd.stats <- NULL
   }
 
-  ## ── graphics bookkeeping ------------------------------------------------
+  ## -- graphics bookkeeping ------------------------------------------------
   imgName <- sprintf("%sdpi%d.%s", imgName, dpi, format)
   w <- if (is.na(width)) 6 else if (width == 0) 6 else width
   h <- w * 6 / 8
   mSetObj$imgSet$rsd.violin <- imgName
 
-  ## ── draw ---------------------------------------------------------------
+  ## -- draw ---------------------------------------------------------------
   Cairo::Cairo(file = imgName, unit = "in", dpi = dpi,
                width = w, height = h, type = format, bg = "white")
 
   library(ggplot2)
-## ── sample counts for axis labels ---------------------------------------
+## -- sample counts for axis labels ---------------------------------------
 n.qc     <- sum(qc.inx)          # number of QC columns
 n.sample <- sum(!qc.inx)         # number of non-QC (biological) columns
 
@@ -1719,7 +1719,7 @@ p <- ggplot(plt_df, aes(Class, RSD, fill = Class)) +
   geom_hline(yintercept = thr, linetype = "dashed",
              colour = "grey45", linewidth = 0.35) +
   scale_fill_manual(values = palette, guide = "none") +
-  scale_x_discrete(labels = x.labs) +                          # ← NEW
+  scale_x_discrete(labels = x.labs) +                          # <- NEW
   scale_y_continuous(breaks = pretty(plt_df$RSD, n = 8),
                      limits = c(0, NA)) +
   labs(y = "RSD (%)", x = NULL) +
@@ -1735,7 +1735,7 @@ p <- ggplot(plt_df, aes(Class, RSD, fill = Class)) +
   invisible(.set.mSet(mSetObj))
 }
 
-## — add this helper just above the main function (or inside it) ------------
+## - add this helper just above the main function (or inside it) ------------
 rm_outliers <- function(vec) {
   q  <- stats::quantile(vec, c(.25, .75), na.rm = TRUE)
   iqr <- q[2] - q[1]

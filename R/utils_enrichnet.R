@@ -108,7 +108,7 @@ my.enrich.net <- function(mSetObj=NA, netNm="mummichog_net", overlapType="mixed"
   n.sig   <- length(sig.idx)
   
   if (n.sig == 0) {
-    message("No significant pathways (p ≤ 0.05); using the top ",
+    message("No significant pathways (p <= 0.05); using the top ",
             max.show, " overall.")
   }
   
@@ -175,7 +175,7 @@ my.enrich.net <- function(mSetObj=NA, netNm="mummichog_net", overlapType="mixed"
   
   ## 4.  Ensure we still have at least two pathways
   if (nrow(enr.mat) < 2) {
-    AddErrMsg("Fewer than two pathways to display — aborting network build.")
+    AddErrMsg("Fewer than two pathways to display - aborting network build.")
     return(0)
   }
   
@@ -239,18 +239,18 @@ my.enrich.net <- function(mSetObj=NA, netNm="mummichog_net", overlapType="mixed"
     }
 
     cmpd.db   <- .get.my.lib("compound_db.qs")
-    kegg2name <- setNames(cmpd.db$name,  cmpd.db$kegg_id)   # "C00022" → "Pyruvate"
-    name2kegg <- setNames(cmpd.db$kegg_id, cmpd.db$name)    # "Pyruvate" → "C00022"
+    kegg2name <- setNames(cmpd.db$name,  cmpd.db$kegg_id)   # "C00022" -> "Pyruvate"
+    name2kegg <- setNames(cmpd.db$kegg_id, cmpd.db$name)    # "Pyruvate" -> "C00022"
     
-    ## Canonicalise sig.cpds  → KEGG IDs (but keep originals if unknown)
+    ## Canonicalise sig.cpds  -> KEGG IDs (but keep originals if unknown)
     temp <- ifelse(sig.cpds %in% names(kegg2name),          # already ID
                    sig.cpds,
-                   name2kegg[ sig.cpds ])                   # name → ID
+                   name2kegg[ sig.cpds ])                   # name -> ID
     temp[ is.na(temp) ] <- sig.cpds[ is.na(temp) ]          # restore unknowns
     sig.ids <- unique(temp)
     
     ## -----------------------------------------------------------------
-    ##  Build pathway → hit list (names or original IDs)
+    ##  Build pathway -> hit list (names or original IDs)
     ## -----------------------------------------------------------------
 
     pathway.cpds <- setNames(
@@ -489,9 +489,9 @@ my.enrich.net <- function(mSetObj=NA, netNm="mummichog_net", overlapType="mixed"
     ## indices of pathway nodes inside bg
     pathway.idx  <- V(bg)$name %in% rownames(enr.mat)
     
-    ## (A)  TOPOLOGY score for pathway nodes  – use degree() here
+    ## (A)  TOPOLOGY score for pathway nodes  - use degree() here
     path.deg     <- igraph::degree(bg)[ pathway.idx ]
-    path.norm    <- my.normalize(path.deg)                       # 0–1
+    path.norm    <- my.normalize(path.deg)                       # 0-1
     V(bg)$color [ pathway.idx ] <-
       ComputeColorGradient(path.norm,  "black",  FALSE)
     V(bg)$colorw[ pathway.idx ] <-
@@ -666,7 +666,7 @@ overlap_ratio <- function(set1, set2, type="mixed"){
     current.kegglib <<- ov_qs_read("current.kegglib.qs")
   }
   
-  ids <- current.kegglib$path.ids        # named vector  Name → ID
+  ids <- current.kegglib$path.ids        # named vector  Name -> ID
   ix  <- match(names.vec, names(ids))    # numeric indices (or NA)
   out <- ids[ix]                         # character vector of IDs (or NA)
   
@@ -676,7 +676,7 @@ overlap_ratio <- function(set1, set2, type="mixed"){
   out
 }
 
-#' Convert internal pathway IDs → display names
+#' Convert internal pathway IDs -> display names
 #'
 #' @param mSetObj  MetaboAnalyst object (or NA to use current)
 #' @param ids      Character vector of pathway IDs (e.g. "mfn1v10path215")
@@ -686,7 +686,7 @@ overlap_ratio <- function(set1, set2, type="mixed"){
   mSetObj <- .get.mSet(mSetObj)
   pid     <- mSetObj$pathways$id    # e.g. c("mfn1v10path215", ...)
   pname   <- mSetObj$pathways$name  # e.g. c("Vitamin D3 ...", ...)
-  map     <- setNames(pname, pid)   # named lookup: ID → name
+  map     <- setNames(pname, pid)   # named lookup: ID -> name
   
   out     <- map[ids]               # may produce NA for unmatched
   out[is.na(out)] <- ids[is.na(out)]# restore original ID when no match
@@ -694,7 +694,7 @@ overlap_ratio <- function(set1, set2, type="mixed"){
   out
 }
 
-#' Convert display pathway names → internal IDs
+#' Convert display pathway names -> internal IDs
 #'
 #' @param mSetObj    MetaboAnalyst object (or NA to use current)
 #' @param names.vec  Character vector of display names

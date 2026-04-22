@@ -138,7 +138,7 @@ PrepareSigDRItems <- function(mSetObj=NA, deg.pval = 1, FC = 1.5, deg.FDR = FALS
     return(0);
   }
 
-## ---------------- Keep ≤ 1 000 most-significant features ----------------
+## ---------------- Keep <= 1 000 most-significant features ----------------
 sel.idx <- which(res$all.pass)                 # rows that passed all filters
 
 if (length(sel.idx) == 0) {

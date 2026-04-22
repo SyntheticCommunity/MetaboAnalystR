@@ -55,9 +55,9 @@ GetCovDnIDs <- function(mSetObj=NA){
 #'@export
 #'
 
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 ## 1 · Random-Forest analysis (classification *or* regression)
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 RF.AnalMeta <- function(mSetObj = NA,
                         treeNum = 500,
                         tryNum  = 7,
@@ -108,7 +108,7 @@ RF.AnalMeta <- function(mSetObj = NA,
                                          mtry  = tryNum,
                                          importance = TRUE,
                                          proximity = TRUE)
-  } else {                          # continuous → regression
+  } else {                          # continuous -> regression
     if(tryNum == -1){
         mtryVal <- floor(ncol(X) / 3)
     }else{
@@ -144,9 +144,9 @@ RF.AnalMeta <- function(mSetObj = NA,
   .set.mSet(mSetObj)
 }
 
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 ## 2 · RF model diagnostic plot (auto class / regression)
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 PlotRF.ClassifyMeta <- function(mSetObj = NA,
                                 imgName,
                                 format = "png",
@@ -185,9 +185,9 @@ PlotRF.ClassifyMeta <- function(mSetObj = NA,
   .set.mSet(mSetObj)
 }
 
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 ## 3 · Variable-importance plot (unchanged logic)
-## ───────────────────────────────────────────────────────────────────────
+## -----------------------------------------------------------------------
 PlotRF.VIPMeta <- function(mSetObj = NA,
                            imgName,
                            format = "png",
@@ -381,14 +381,14 @@ PlotImpVarCont <- function(mSetObj  = NA,
   mSetObj <- .get.mSet(mSetObj)
   rf_mod  <- mSetObj$analSet$rf
   
-  ## ── top N features ------------------------------------------------
+  ## -- top N features ------------------------------------------------
   feat.num <- max(1, min(feat.num, length(imp.vec)))
   imp.top  <- sort(rev(sort(imp.vec))[1:feat.num])
   full.nms <- names(imp.top)
   short.nms<- substr(full.nms, 1, 14)
   names(imp.top) <- NULL
   
-  ## ── fetch data and response ---------------------------------------
+  ## -- fetch data and response ---------------------------------------
   if (type == "meta") {
     norm.data <- mSetObj$dataSet$norm.meta
     y         <- as.numeric(mSetObj$dataSet$cls.rf)
@@ -397,7 +397,7 @@ PlotImpVarCont <- function(mSetObj  = NA,
     y         <- as.numeric(mSetObj$dataSet$cls)
   }
   
-  ## ── check feature presence ----------------------------------------
+  ## -- check feature presence ----------------------------------------
   valid.nms <- full.nms[full.nms %in% colnames(norm.data)]
   if (length(valid.nms) == 0) {
     warning("None of the importance-ranked features are in normalized data.")
@@ -407,7 +407,7 @@ PlotImpVarCont <- function(mSetObj  = NA,
   feat.num <- length(full.nms)
   short.nms <- substr(full.nms, 1, 14)
   
-  ## ── bin y into groups using quantiles -----------------------------
+  ## -- bin y into groups using quantiles -----------------------------
   bins <- cut(
     y,
     breaks = quantile(y, probs = seq(0, 1, length.out = nBins + 1), na.rm = TRUE),
@@ -415,7 +415,7 @@ PlotImpVarCont <- function(mSetObj  = NA,
     labels = paste0("Bin", seq_len(nBins))
   )
   
-  ## ── compute trimmed means in each bin -----------------------------
+  ## -- compute trimmed means in each bin -----------------------------
   trimmed.means <- by(
     norm.data[, full.nms, drop = FALSE],
     bins,
@@ -427,21 +427,21 @@ PlotImpVarCont <- function(mSetObj  = NA,
     return(invisible(.set.mSet(mSetObj)))
   }
   
-  ## ── build heatmap coloring matrix ---------------------------------
+  ## -- build heatmap coloring matrix ---------------------------------
   palName <- if (color.BW) "Greys" else "Blues"
   binCols <- colorRampPalette(RColorBrewer::brewer.pal(10, palName))(nBins)
   rankMat <- t(apply(mat, 2, rank))
   
   op <- par(mar = c(5, 7, 3, 3))  # remove extra right space
   
-  ## ── gradient color for main dots ----------------------------------
+  ## -- gradient color for main dots ----------------------------------
   colfunc <- colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))
   clr.vec <- colfunc(length(imp.top))
   ord     <- order(imp.top)
   cols.ordered <- clr.vec
   cols.ordered[ord] <- clr.vec
   
-  ## ── draw importance dot chart -------------------------------------
+  ## -- draw importance dot chart -------------------------------------
   label.cex <- if(feat.num > 25) 0.65 else if(feat.num > 15) 0.75 else 0.9
   dotchart(imp.top,
          pch = 21,
@@ -1290,7 +1290,7 @@ FeatureCorrelationMeta <- function(mSetObj     = NA,
                                    cov.vec     = NULL) {
   mSetObj <- .get.mSet(mSetObj)
   
-  # metadata → numeric for discrete variables
+  # metadata -> numeric for discrete variables
   covariates <- mSetObj$dataSet$meta.info
   var.types  <- mSetObj$dataSet$meta.types
   for (i in seq_along(var.types)) {
@@ -1298,7 +1298,7 @@ FeatureCorrelationMeta <- function(mSetObj     = NA,
       covariates[, i] <- as.numeric(covariates[, i]) - 1
   }
   
-  ## ── 1 · target & feature matrix ────────────────────────────────────
+  ## -- 1 · target & feature matrix ------------------------------------
   input.data <- mSetObj$dataSet$norm      # features
   if (tgtType == "featNm") {                 # target is a feature
     if (!varName %in% colnames(input.data)) {
@@ -1315,7 +1315,7 @@ FeatureCorrelationMeta <- function(mSetObj     = NA,
     tgt.var <- covariates[, varName]
   }
   
-  ## ── 2 · choose correlation strategy ────────────────────────────────
+  ## -- 2 · choose correlation strategy --------------------------------
   if (tolower(corr.type) == "partial") {
     
     if (!requireNamespace("ppcor",  quietly = TRUE)) {
@@ -1356,7 +1356,7 @@ FeatureCorrelationMeta <- function(mSetObj     = NA,
       S <- cov(X, use = "pairwise")              # only for λ heuristic
       
       # --- choose λ --------------------------------------------------------
-      # small λ → dense Ω, large λ → sparse Ω ; heuristic below is fast
+      # small λ -> dense Ω, large λ -> sparse Ω ; heuristic below is fast
       lambda <- 0.1 * median(abs(S[upper.tri(S)]))
       
       # --- run BigQUIC  ----------------------------------------------------
@@ -1448,7 +1448,7 @@ FeatureCorrelationMeta <- function(mSetObj     = NA,
     colnames(cor.res) <- c("correlation", "t-stat", "p-value");
   }
   
-  ## ── 4 · finish up  (FDR, ordering, export) ─────────────────────────
+  ## -- 4 · finish up  (FDR, ordering, export) -------------------------
   rownames(cor.res) <- colnames(input.data)
   
   cor.res <- cbind(cor.res,
@@ -1521,17 +1521,17 @@ PlotRF.OutlierCont <- function(mSetObj = NA,
                                dpi    = default.dpi,
                                width  = NA) {
 
-  ## ── fetch mSetObj & model -------------------------------
+  ## -- fetch mSetObj & model -------------------------------
   mSetObj <- .get.mSet(mSetObj)
   rf_mod  <- mSetObj$analSet$rf
 
-  ## ── compute |standardized OOB residual| -----------------
+  ## -- compute |standardized OOB residual| -----------------
   zres     <- (rf_mod$y - rf_mod$predicted) / sd(rf_mod$y - rf_mod$predicted)
   dist.res <- abs(zres)
   names(dist.res) <- rownames(mSetObj$dataSet$norm)
   ylab.txt <- "|Standardized OOB residual|"
 
-  ## ── color bars by continuous metadata -------------------
+  ## -- color bars by continuous metadata -------------------
   metaVals <- mSetObj$dataSet$cls.rf
   rng      <- range(metaVals, na.rm = TRUE)
   rampCols <- colorRampPalette(c("lightblue","blue"))(100)
@@ -1539,7 +1539,7 @@ PlotRF.OutlierCont <- function(mSetObj = NA,
   idx      <- findInterval(metaVals, brks, rightmost.closed = TRUE)
   cols     <- rampCols[idx]
 
-  ## ── open device & draw single panel ---------------------
+  ## -- open device & draw single panel ---------------------
   imgName <- paste0(imgName, "dpi", dpi, ".", format)
   w <- ifelse(is.na(width), 9, ifelse(width == 0, 8, width))
   h <- w * 7/9
@@ -1644,7 +1644,7 @@ PlotRF.RegressionDetail <- function(mSetObj = NA,
   obs  <- rf_mod$y
   pred <- rf_mod$predicted
 
-  # ── Plot 1: Observed vs Predicted ───────────────────────────────
+  # -- Plot 1: Observed vs Predicted -------------------------------
   plot(obs, pred,
        xlab = "Observed", ylab = "OOB-Predicted",
        main = "Observed vs Predicted",
@@ -1654,7 +1654,7 @@ PlotRF.RegressionDetail <- function(mSetObj = NA,
   legend("topleft", legend = sprintf("R² = %.3f", r2),
          bty = "n", xpd = NA)
 
-  # ── Plot 2: Rank vs Rank ────────────────────────────────────────
+  # -- Plot 2: Rank vs Rank ----------------------------------------
   rk_obs  <- rank(obs)
   rk_pred <- rank(pred)
   plot(rk_obs, rk_pred,

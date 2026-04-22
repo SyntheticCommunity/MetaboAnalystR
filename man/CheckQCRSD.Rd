@@ -7,7 +7,7 @@
 CheckQCRSD(mSetObj, thr = 30)
 }
 \arguments{
-\item{mSetObj}{MetaboAnalystR object (default NA → pull from session)}
+\item{mSetObj}{MetaboAnalystR object (default NA -> pull from session)}
 
 \item{thr}{RSD threshold percentage for the “pass-rate” statistic}
 }

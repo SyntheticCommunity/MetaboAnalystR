@@ -102,7 +102,7 @@ path_info <- lapply(paths, function(path) {
   # Get all pmids from those edges
   pmids <- E(mir.graph)$pmid[edge_ids]
   # Collapse edge list into path string
-  path_str <- paste(nodes, collapse = " → ")
+  path_str <- paste(nodes, collapse = " -> ")
   # Collapse pmids (optionally unique or sorted)
   pmid_str <- paste(unique(unlist(strsplit(pmids, " "))), collapse = ", ")
   

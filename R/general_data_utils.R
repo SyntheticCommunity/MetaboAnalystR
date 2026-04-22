@@ -62,10 +62,10 @@ Reload.scripts.on.demand <- function(){
 #'@export
 #'@import methods
 
-InitDataObjects <- function(data.type, anal.type, paired=FALSE, default.dpi=default.dpi){
+InitDataObjects <- function(data.type, anal.type, paired=FALSE, dpi=300){
   rpath <<- "../../";
   #default.dpi <<- default.dpi;
-  assign("default.dpi", default.dpi, envir = .GlobalEnv)
+  assign("default.dpi", dpi, envir = .GlobalEnv)
   if(!.on.public.web){
     if(exists("mSetObj")){
       mSetObj <- .get.mSet(mSetObj);

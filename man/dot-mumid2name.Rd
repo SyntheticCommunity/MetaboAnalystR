@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_enrichnet.R
 \name{.mumid2name}
 \alias{.mumid2name}
-\title{Convert internal pathway IDs → display names}
+\title{Convert internal pathway IDs -> display names}
 \usage{
 .mumid2name(ids, mSetObj = NA)
 }
@@ -15,5 +15,5 @@
 Character vector of display names (fallback to ID if missing)
 }
 \description{
-Convert internal pathway IDs → display names
+Convert internal pathway IDs -> display names
 }

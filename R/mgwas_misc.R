@@ -53,8 +53,8 @@ Query.mGWASDB <- function(db.path, q.vec, table.nm, col.nm, biofluid="all", popu
     
   }else if(table.nm=="snp2met_study"){
     table.nm <- "snp2met";
-    if(query=="'Viñuela_medRxiv_2021_targeted'"){
-      query <- "'Viñuela_medRxiv_2021'";
+    if(query=="'Vinuela_medRxiv_2021_targeted'"){
+      query <- "'Vinuela_medRxiv_2021'";
       statement <- paste("SELECT *  FROM ", table.nm,
                          " LEFT JOIN metabolites
                        ON metabolites.metabolite_id=",table.nm,".metabolite_id
@@ -64,8 +64,8 @@ Query.mGWASDB <- function(db.path, q.vec, table.nm, col.nm, biofluid="all", popu
                      ON gene.embl=snp.nearest_gene_50kb
                        WHERE ",table.nm,".", col.nm," IN (", query, ")
                       AND (note = 'targeted')", sep="");
-    } else if(query=="'Viñuela_medRxiv_2021_untargeted'"){
-      query <- "'Viñuela_medRxiv_2021'";
+    } else if(query=="'Vinuela_medRxiv_2021_untargeted'"){
+      query <- "'Vinuela_medRxiv_2021'";
       statement <- paste("SELECT *  FROM ", table.nm,
                          " LEFT JOIN metabolites
                        ON metabolites.metabolite_id=",table.nm,".metabolite_id

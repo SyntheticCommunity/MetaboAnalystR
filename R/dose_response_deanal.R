@@ -66,7 +66,7 @@ PerformDoseDEAnal <- function(mSetObj = NA, meta1 = "NA") {
                        adjust.method = "BH")
 
   ## -------- Effect-size vector for pre-filtering -----------------------------
-  ## β*  = change (in SDs of the feature) per SD change in dose
+  ## \u03b2*  = change (in SDs of the feature) per SD change in dose
   beta_std <- apply(expr_matrix, 1, function(x) {
     coef(lm(scale(x) ~ scale(tmp_main)))[2]
   })
@@ -85,14 +85,14 @@ PerformDoseDEAnal <- function(mSetObj = NA, meta1 = "NA") {
       success <-0;
     }
     
-    # require ≥ 3 doses and ≥ 3 reps each
+    # require >= 3 doses and >= 3 reps each
     dose.levels <- levels(cls)
     if (length(dose.levels) < 3) {
-      AddErrMsg(paste("Main variable", main.var, "needs ≥ 3 distinct doses."))
+      AddErrMsg(paste("Main variable", main.var, "needs >= 3 distinct doses."))
       success <-0;
     }
     if (any(table(cls) < 3)) {
-      AddErrMsg(paste("Main variable", main.var, ": each dose must have ≥ 3 replicates."))
+      AddErrMsg(paste("Main variable", main.var, ": each dose must have >= 3 replicates."))
       success <-0;
     }
 
@@ -451,7 +451,7 @@ doseRes$fc.thresh <- if (is.null(doseRes$fc.thresh) ||
   colours <- c("Sig_Down" = "#0080ff", "Sig_Up" = "#ff3333", "Unsig." = "#c0c0c0")
 
   cls.type <- mSetObj$dataSet$cls.type   # "cont" or "disc"
-  xlab     <- ifelse(cls.type == "cont", "log10(FC)", "AveFC (max |Δ|)")
+  xlab     <- ifelse(cls.type == "cont", "log10(FC)", "AveFC (max |\u0394|)")
 
   require(ggplot2)
   p <- ggplot(df, aes(x = logFC, y = negLogP, colour = category)) +

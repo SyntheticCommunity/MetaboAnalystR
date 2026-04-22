@@ -20,7 +20,7 @@ PlotMissingLollipop(mSetObj = NA,
 
 \item{dpi}{Device resolution (dpi). Default 150.}
 
-\item{width}{Width in inches; if \code{NA}, uses 0.25" per sample (≥ 8").}
+\item{width}{Width in inches; if \code{NA}, uses 0.25" per sample (>= 8").}
 
 \item{groupCol}{Metadata column to colour by (default = first column or "Class").}
 }

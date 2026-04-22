@@ -880,7 +880,7 @@ path_info <- lapply(paths, function(path) {
   # Get all pmids from those edges
   pmids <- E(mir.graph)$pmid[edge_ids]
   # Collapse edge list into path string
-  path_str <- paste(nodes, collapse = " → ")
+  path_str <- paste(nodes, collapse = " -> ")
   # Collapse pmids (optionally unique or sorted)
   pmid_str <- paste(unique(unlist(strsplit(pmids, " "))), collapse = ", ")
   
@@ -1000,7 +1000,7 @@ api_request <- function(route, params,
 QueryAlphaGenome <- function(api_key="") {
   mSetObj <- .get.mSet(mSetObj);
 
-  # Use mr_dat — the exact SNPs used in MR analysis and shown in result plots
+  # Use mr_dat - the exact SNPs used in MR analysis and shown in result plots
   dat <- mSetObj$dataSet$mr_dat;
   if(is.null(dat) || nrow(dat) == 0) {
     current.msg <<- "No MR analysis data available for AlphaGenome analysis.";
@@ -1233,7 +1233,7 @@ GetGeneLitCol <- function(colInx) {
 ## Gene-Disease Literature (batch)    ##
 ########################################
 
-# Query MELODI-Presto for gene→disease literature evidence
+# Query MELODI-Presto for gene->disease literature evidence
 # Uses a SINGLE API call with all AG gene names as x, disease as y
 # Stores result in mSetObj$dataSet$gene_disease_lit
 QueryGeneLiterature <- function(disease) {
@@ -1256,7 +1256,7 @@ QueryGeneLiterature <- function(disease) {
   # Collect search terms: real gene names + positional genes from MR data
   genes <- unique(as.character(ag_filtered$Target_Gene));
   genes <- genes[!is.na(genes) & genes != "" & genes != "N/A"];
-  # Filter out ENSEMBL IDs (ENSG...) — they won't be in PubMed text
+  # Filter out ENSEMBL IDs (ENSG...) - they won't be in PubMed text
   genes <- genes[!grepl("^ENSG[0-9]+$", genes)];
 
   # Also add positional genes from MR data (the gene where the SNP sits)
@@ -1307,7 +1307,7 @@ QueryGeneLiterature <- function(disease) {
   }
 
   if(is.null(res) || nrow(res) == 0) {
-    # No cache — call MELODI-Presto API
+    # No cache - call MELODI-Presto API
     endpoint <- "/overlap/";
     params <- list(
       x = search_terms,
@@ -1375,7 +1375,7 @@ BuildEvidenceComparison <- function() {
 
   AG_QUANTILE_THRESHOLD <- 0.5;
 
-  # Use mr_dat — same SNPs as result page plots
+  # Use mr_dat - same SNPs as result page plots
   dat <- mSetObj$dataSet$mr_dat;
   if(is.null(dat) || nrow(dat) == 0) {
     mSetObj$dataSet$evidence_comparison <- data.frame();
@@ -1473,7 +1473,7 @@ BuildEvidenceComparison <- function() {
     mr_gene <- ifelse(is.na(snp_dat$genes) || snp_dat$genes == "", "N/A", as.character(snp_dat$genes));
     has_mr <- !is.na(mr_pval_num) && mr_pval_num < 0.05;
 
-    # AlphaGenome evidence — one row per gene/effect above threshold
+    # AlphaGenome evidence - one row per gene/effect above threshold
     ag_res <- mSetObj$dataSet$alphagenome_results;
     added_ag_rows <- FALSE;
 
@@ -1503,8 +1503,8 @@ BuildEvidenceComparison <- function() {
             #   (e.g. "HISTONE MODIFICATION").  Each key has its OWN PMIDs.
             #
             # Priority: look up by the ROW-SPECIFIC identifier first:
-            #   1) If AG Gene/Effect is an effect type → use the mapped bio term
-            #   2) If AG Gene/Effect is a real gene name → use that gene
+            #   1) If AG Gene/Effect is an effect type -> use the mapped bio term
+            #   2) If AG Gene/Effect is a real gene name -> use that gene
             #   3) Fallback to positional gene ONLY if nothing else matched
             # This ensures each row gets its own PMIDs, not the positional gene's.
 
